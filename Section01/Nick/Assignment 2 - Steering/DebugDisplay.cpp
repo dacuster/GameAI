@@ -48,7 +48,7 @@ DebugDisplay::~DebugDisplay()
 void DebugDisplay::draw( GraphicsBuffer* pTarget )
 {
 	std::string toDisplay = mpContent->getDebugString();
-	//gpGame->getGraphicsSystem()->writeText(*pTarget, mPos, *gpGame->getFontManager()->getFont(COUR_24_FONT_ID), RED_COLOR, toDisplay);
+	gpGame->getGraphicsSystem()->writeText(*pTarget, mPos, *gpGame->getFontManager()->getFont(COUR_24_FONT_ID), RED_COLOR, toDisplay);
 
 }
 

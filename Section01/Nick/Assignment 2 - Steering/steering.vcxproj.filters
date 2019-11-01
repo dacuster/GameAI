@@ -124,6 +124,9 @@
     <ClCompile Include="GridCell.cpp">
       <Filter>Source Files\Grid</Filter>
     </ClCompile>
+    <ClCompile Include="PathSteering.cpp">
+      <Filter>Source Files\Steering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Steering.h">
@@ -251,6 +254,9 @@
     </ClInclude>
     <ClInclude Include="GridCell.h">
       <Filter>Header Files\Grid</Filter>
+    </ClInclude>
+    <ClInclude Include="PathSteering.h">
+      <Filter>Header Files\Steering</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

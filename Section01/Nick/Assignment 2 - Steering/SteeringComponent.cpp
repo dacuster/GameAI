@@ -119,6 +119,13 @@ void SteeringComponent::setData(const SteeringData& data)
 			mpSteering = new WanderAndChaseSteering(data.ownerID, data.targetLoc, data.targetID, data.chaseRadius, data.wanderArriveRadius, data.arriveRadius, data.arriveSlowRadius, data.arriveTimeToTarget, data.viewAngle, data.outerViewAngle, data.timeToView);
 			break;
 		}
+		case Steering::FOLLOW_PATH:
+		{
+			//delete mpSteering;
+			// TODO: Create Follow Path steering before creating here.
+			//mpSteering = new FollowPathSteering();
+			break;
+		}
 		default:
 		{
 

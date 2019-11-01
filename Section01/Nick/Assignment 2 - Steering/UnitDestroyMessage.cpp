@@ -52,7 +52,7 @@ UnitDestroyMessage::~UnitDestroyMessage()
 // Process the message.
 void UnitDestroyMessage::process()
 {
-	gpGame->getUnitManager()->deleteRandomUnit();
+	gpGame->getUnitManager()->deleteAllUnits();
 
 	return;
 }

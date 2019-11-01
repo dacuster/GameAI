@@ -191,6 +191,10 @@ bool Game::init()
 		mpSpriteManager->createAndManageSprite(TARGET_SPRITE_ID, pTargetBuffer, 0, 0, (float)pTargetBuffer->getWidth(), (float)pTargetBuffer->getHeight());
 	}
 
+	//debug display
+	PathfindingDebugContent* pContent = new PathfindingDebugContent(mpPathfinder);
+	mpDebugDisplay = new DebugDisplay(Vector2D(0, 12), pContent);
+
 	mTargetFPS = mpRepository->getEntry(DataKeyEnum::TARGET_FPS).getUIntVal();
 	mTargetElapsedTime = 1000.0f / mTargetFPS;
 
@@ -227,6 +231,21 @@ void Game::cleanup()
 	mpUnitManager = NULL;
 	delete mpComponentManager;
 	mpComponentManager = NULL;
+
+	delete mpGrid;
+	mpGrid = NULL;
+
+	delete mpGridVisualizer;
+	mpGridVisualizer = NULL;
+
+	delete mpGridGraph;
+	mpGridGraph = NULL;
+
+	delete mpPathfinder;
+	mpPathfinder = NULL;
+
+	delete mpDebugDisplay;
+	mpDebugDisplay = NULL;
 }
 
 void Game::doLoop()
@@ -264,6 +283,17 @@ void Game::processLoop()
 {
 	InputSystem* pInputSystem = mpSystem->getInputSystem();
 
+	GraphicsSystem* pGraphicsSystem = getGraphicsSystem();
+	//get back buffer
+	GraphicsBuffer* pBackBuffer = pGraphicsSystem->getBackBuffer();
+	//copy to back buffer
+	mpGridVisualizer->draw(*pBackBuffer);
+#ifdef VISUALIZE_PATH
+	//show pathfinder visualizer
+	mpPathfinder->drawVisualization(mpGrid, pBackBuffer);
+#endif
+
+
 	float dt = (mTargetElapsedTime * mTimeMult) / 1000.0f;
 	mpUnitManager->updateAll(dt);
 	mpComponentManager->update(dt);
@@ -274,6 +304,8 @@ void Game::processLoop()
 
 	//draw units
 	mpUnitManager->drawAll();
+
+	mpDebugDisplay->draw(pBackBuffer);
 
 	if (mDrawDebugData)
 	{
@@ -286,22 +318,10 @@ void Game::processLoop()
 
 	mpMessageManager->processMessagesForThisframe();
 
+	// TODO: Add path to message for mouse clicks.
 	if (pInputSystem->isMouseButtonPressed(InputSystem::LEFT))
 	{
 		GameMessage* pMessage = new PlayerMoveToMessage(pos);
-		MESSAGE_MANAGER->addMessage(pMessage, 0);
-	}
-
-	if (pInputSystem->isKeyPressed(InputSystem::M_KEY))
-	{
-		int count = getDataRepository()->getEntry(DataKeyEnum::CREATE_UNIT_COUNT).getIntVal();
-		GameMessage* pMessage = new UnitCreateMessage(*mpSpriteManager->getSprite(AI_ICON_SPRITE_ID), Steering::WANDER_AND_CHASE, count);
-		MESSAGE_MANAGER->addMessage(pMessage, 0);
-	}
-	
-	if (pInputSystem->isKeyPressed(InputSystem::X_KEY))
-	{
-		GameMessage* pMessage = new UnitDestroyMessage();
 		MESSAGE_MANAGER->addMessage(pMessage, 0);
 	}
 
@@ -310,49 +330,13 @@ void Game::processLoop()
 		mShouldExit = true;
 	}
 
-	if (pInputSystem->isKeyPressed(InputSystem::UP_KEY))
+	if (pInputSystem->isKeyPressed(InputSystem::S_KEY))
 	{
-		// Initialize an invalid steering type.
-		Steering::SteeringType steeringType = Steering::INVALID_TYPE;
-
-		// Set steering based on 'F' key pressed state.
-		if (pInputSystem->isKeyPressed(InputSystem::F_KEY))
-		{
-			steeringType = Steering::FLEE;
-		}
-		else
-		{
-			steeringType = Steering::ARRIVE;
-		}
-
-		GameMessage* pMessage = new UnitCreateMessage(*mpSpriteManager->getSprite(AI_ICON_SPRITE_ID), steeringType);
-		MESSAGE_MANAGER->addMessage(pMessage, 0);
-	}
-	else if (pInputSystem->isKeyPressed(InputSystem::DOWN_KEY))
-	{
-		GameMessage* pMessage = new UnitDestroyMessage();
-		MESSAGE_MANAGER->addMessage(pMessage, 0);
-	}
-
-	if (pInputSystem->isKeyPressed(InputSystem::A_KEY))
-	{
-		GameMessage* pMessage = new UnitCreateMessage(*mpSpriteManager->getSprite(AI_ICON_SPRITE_ID), Steering::WANDER_AND_CHASE);
-		MESSAGE_MANAGER->addMessage(pMessage, 0);
-	}
-
-	if (pInputSystem->isKeyPressed(InputSystem::LEFT_KEY))
-	{
-		mTimeMult -= 0.1f;
-		if (mTimeMult < 0.0f)
-			mTimeMult = 0.0f;
-	}
-	else if (pInputSystem->isKeyPressed(InputSystem::RIGHT_KEY))
-	{
-		mTimeMult += 0.1f;
-	}
-	else if (pInputSystem->isKeyPressed(InputSystem::SPACE_KEY))
-	{
-		mTimeMult = 1.0f;
+		GameMessage* pDestroyMessage = new UnitDestroyMessage();
+		MESSAGE_MANAGER->addMessage(pDestroyMessage, 0);
+		
+		GameMessage* pCreateMessage = new UnitCreateMessage(*mpSpriteManager->getSprite(AI_ICON_SPRITE_ID), Steering::FOLLOW_PATH, 10);
+		MESSAGE_MANAGER->addMessage(pCreateMessage, 0);
 	}
 
 	if (pInputSystem->isKeyPressed(InputSystem::D_KEY))

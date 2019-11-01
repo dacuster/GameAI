@@ -108,3 +108,31 @@ void GridGraph::init()
 		}
 	}
 }
+
+bool GridGraph::nodesLineofSight(Node* pTo, Node* pFrom)
+{
+	bool result = true;
+	//check if result is true
+	//https://codereview.stackexchange.com/questions/190662/2d-raycasting-implementation
+	float step = 1.0f;
+	Vector2D rayDir = pTo->getPosition() - pFrom->getPosition();
+	rayDir.normalize();
+	rayDir *= step;
+
+	Vector2D posToCheck = pFrom->getPosition() + rayDir;
+
+	while ((pTo->getPosition() - posToCheck).getLength() >= step)
+	{
+		int pixelX = int((posToCheck.getX() / mpGrid->getGridWidth()) * mpGrid->getPixelWidth()),
+			pixelY = int((posToCheck.getY() / mpGrid->getGridHeight()) * mpGrid->getPixelHeight());
+
+		std::cout << "X: " << pixelX << " Y: " << pixelY << "\n";
+
+		if (mpGrid->getValueAtPixelXY(pixelX, pixelY) == BLOCKING_VALUE)
+			return false;
+
+		posToCheck += rayDir;
+	}
+
+	return result;
+}

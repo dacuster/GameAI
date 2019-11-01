@@ -113,8 +113,11 @@ Steering* ArriveSteering::getSteering()
 		mTargetLoc = pTarget->getPositionComponent()->getPosition();
 	}
 
+	// All steerings that should face.
+	bool isFacing = mType == Steering::ARRIVE || mType == Steering::ARRIVE_AND_FACE || mType == Steering::WANDER_AND_CHASE || mType == Steering::FOLLOW_PATH;
+
 	// Get a direction vector.
-	if (mType == Steering::ARRIVE || mType == Steering::ARRIVE_AND_FACE || mType == Steering::WANDER_AND_CHASE)
+	if (isFacing)
 	{
 		diff = mTargetLoc - pOwner->getPositionComponent()->getPosition();
 	}
@@ -128,7 +131,7 @@ Steering* ArriveSteering::getSteering()
 
 	float distance = diff.getLength();
 
-	if (mType == Steering::ARRIVE || mType == Steering::ARRIVE_AND_FACE || mType == Steering::WANDER_AND_CHASE)
+	if (isFacing)
 	{
 		// Inside radius. Stop.
 		if (distance < mTargetRadius)

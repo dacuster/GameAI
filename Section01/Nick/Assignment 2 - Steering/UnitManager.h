@@ -27,6 +27,7 @@ public:
 
 	Unit* getUnit(const UnitID& id) const;
 	void deleteUnit(const UnitID& id);
+	void deleteAllUnits();
 	void deleteRandomUnit();
 
 	void drawAll() const;

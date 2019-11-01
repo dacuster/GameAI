@@ -18,6 +18,7 @@ public:
 
 	void setGrid( Grid* pGrid ) { mpGrid = pGrid; };
 	void init();
+	bool nodesLineofSight(Node* pTo, Node* pFrom);
 
 private:
 	Grid* mpGrid;

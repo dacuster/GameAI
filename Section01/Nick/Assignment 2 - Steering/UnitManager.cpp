@@ -158,6 +158,18 @@ void UnitManager::deleteUnit(const UnitID& id)
 	}
 }
 
+void UnitManager::deleteAllUnits()
+{
+	int counter = 0;
+
+	while (!mUnitMap.empty())
+	{
+		deleteUnit(0);
+	}
+
+	return;
+}
+
 void UnitManager::deleteRandomUnit()
 {
 	if (mUnitMap.size() >= 1)

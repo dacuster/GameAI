@@ -124,7 +124,7 @@ void GridVisualizer::draw( GraphicsBuffer& dest )
 		for( unsigned int i=0; i<theIndices.size(); i++ )
 		{
 			Vector2D ulPos = mpGrid->getULCornerOfCell( theIndices[i] );
-			//pGraphicsSystem->renderFilledRect(*pGraphicsSystem->getBackBuffer(), ulPos, xSize, ySize, iter->first);
+			pGraphicsSystem->renderFilledRect(*pGraphicsSystem->getBackBuffer(), ulPos, xSize, ySize, iter->first);
 		}
 	}
 }

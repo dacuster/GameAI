@@ -98,7 +98,7 @@ Steering* FaceSteering::getSteering()
 		target = pTarget->getPositionComponent()->getPosition();
 	}
 
-	if (mType == Steering::FACE || mType == Steering::ARRIVE_AND_FACE || mType == Steering::WANDER_AND_CHASE)
+	if (mType == Steering::FACE || mType == Steering::ARRIVE_AND_FACE || mType == Steering::WANDER_AND_CHASE || mType == Steering::FOLLOW_PATH)
 	{
 		diff = target - pOwner->getPositionComponent()->getPosition();
 	}

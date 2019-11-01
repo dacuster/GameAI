@@ -38,6 +38,7 @@
 GridPathfinder::GridPathfinder( GridGraph* pGraph )
 :Pathfinder(pGraph)
 ,mTimeElapsed(0.0)
+,mpGridGraph(pGraph)
 {
 #ifdef VISUALIZE_PATH
 	mpVisualizer = NULL;
@@ -64,6 +65,35 @@ float lerp(int value, int start, int end)
 		lerpVal = value / (float)range;
 	}
 	return lerpVal;
+}
+
+Path GridPathfinder::smoothPath(Path inPath)
+{
+	//Path of less than two cannot be smoothed
+	unsigned int minNodes = 2;
+	if (inPath.getNumNodes() <= minNodes)
+		return inPath;
+
+	Path outPath = Path();
+	outPath.addNode(inPath.peekNode(0));
+
+	unsigned int index = 2;
+
+	while (index < inPath.getNumNodes())
+	{
+		Node* index1 = outPath.peekNode(outPath.getNumNodes() - 1);
+		Node* index2 = inPath.peekNode(index);
+
+		if (!mpGridGraph->nodesLineofSight(index2, index1))//line of site check
+		{
+			outPath.addNode(inPath.peekNode(index - 1));
+		}
+		index++;
+	}
+
+	outPath.addNode(inPath.peekNode(inPath.getNumNodes() - 1));
+
+	return outPath;
 }
 
 #ifdef VISUALIZE_PATH

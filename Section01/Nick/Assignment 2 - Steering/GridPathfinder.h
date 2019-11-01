@@ -31,6 +31,7 @@ public:
 	virtual ~GridPathfinder();
 
 	virtual Path findPath( Node* pFrom, Node* pTo ) = 0;
+	Path smoothPath(Path inPath);
 
 	PathfindingType getType() const { return mType; }
 	
@@ -42,6 +43,7 @@ protected:
 	std::vector<Node*> mVisitedNodes;
 	Path mPath;
 	GridVisualizer* mpVisualizer;
+	GridGraph* mpGridGraph;
 #endif
 
 	PathfindingType mType = DEPTH_FIRST_SEARCH;
