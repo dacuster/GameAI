@@ -12,7 +12,7 @@ public:
 
 	void addColor( int index, const Color& color );
 	void removeAllEntriesOfColor( const Color& color );
-	void removeEntry( int index, const Color& color );
+	//void removeEntry( int index, const Color& color );
 	void setModified() { mDirty = true; };
 	void draw( GraphicsBuffer& dest );
 private:

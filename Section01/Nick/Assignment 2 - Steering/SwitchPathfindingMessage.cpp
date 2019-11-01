@@ -25,11 +25,6 @@
 // Graphics Library
 #include "System.h"
 
-
-// Common Library
-#include "Game.h"
-
-
 // Game Library
 #include "Pathfinder.h"
 #include "Path.h"
@@ -37,7 +32,7 @@
 #include "GameMessage.h"
 #include "SwitchPathfindingMessage.h"
 
-#include "GameApp.h"
+#include "Game.h"
 #include "Node.h"
 #include "Graph.h"
 #include "GridGraph.h"
@@ -61,24 +56,20 @@ SwitchPathfindingMessage::~SwitchPathfindingMessage()
 
 void SwitchPathfindingMessage::process()
 {
-	GameApp* pGame = dynamic_cast<GameApp*>(gpGame);
-	if (pGame != NULL)
+	switch (mType)
 	{
-		switch (mType)
-		{
-			case DEPTH_FIRST_SEARCH:
-				pGame->switchPathfinder(new DepthFirstPathfinder(pGame->getGridGraph()));
-				break;
-			case DIJKSTRA:
-				pGame->switchPathfinder(new DijkstraPathfinder(pGame->getGridGraph()));
-				break;
-			case A_STAR:
-				pGame->switchPathfinder(new AStarPathfinder(pGame->getGridGraph()));
-				break;
-			default:
-				break;
-		}
-
-		pGame->getDebugDisplay()->updateContent(new PathfindingDebugContent(pGame->getPathfinder()));
+		case DEPTH_FIRST_SEARCH:
+			gpGame->switchPathfinder(new DepthFirstPathfinder(gpGame->getGridGraph()));
+			break;
+		case DIJKSTRA:
+			gpGame->switchPathfinder(new DijkstraPathfinder(gpGame->getGridGraph()));
+			break;
+		case A_STAR:
+			gpGame->switchPathfinder(new AStarPathfinder(gpGame->getGridGraph()));
+			break;
+		default:
+			break;	
 	}
+
+	gpGame->getDebugDisplay()->updateContent(new PathfindingDebugContent(gpGame->getPathfinder()));
 }

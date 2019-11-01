@@ -20,6 +20,13 @@ class Timer;
 class ComponentManager;
 class UnitManager;
 class DataRepository;
+class PerformanceTracker;
+// Pathfinding
+class Grid;
+class GridVisualizer;
+class GridGraph;
+class GridPathfinder;
+class DebugDisplay;
 
 const IDType BACKGROUND_SPRITE_ID = 0;
 const IDType PLAYER_ICON_SPRITE_ID = 1;
@@ -27,7 +34,9 @@ const IDType AI_ICON_SPRITE_ID = 2;
 const IDType TARGET_SPRITE_ID = 3;
 
 const IDType COUR_24_FONT_ID = 0;
-
+const int GRID_SIZE_X = 32;
+const int GRID_SIZE_Y = 32;
+const std::string gFileName = "..\\pathgrid.txt";
 
 class Game:public Trackable
 {
@@ -53,6 +62,14 @@ public:
 	inline Timer* getMasterTimer() const { return mpMasterTimer; };
 	inline double getCurrentTime() const { return mpMasterTimer->getElapsedTime(); };
 
+	// Pathfinding
+	inline GridVisualizer* getGridVisualizer() { return mpGridVisualizer; };
+	inline GridPathfinder* getPathfinder() { return mpPathfinder; };
+	inline Grid* getGrid() { return mpGrid; };
+	inline GridGraph* getGridGraph() { return mpGridGraph; };
+	inline DebugDisplay* getDebugDisplay() { return mpDebugDisplay; };
+	void switchPathfinder(GridPathfinder* pPathfinder);
+
 private:
 	System* mpSystem;
 	GraphicsBufferManager* mpGraphicsBufferManager;
@@ -71,6 +88,13 @@ private:
 	bool mShouldExit;
 	UINT mTargetFPS=0;
 	float mTargetElapsedTime = 0.0f;
+
+	// Pathfinding
+	Grid* mpGrid;
+	GridVisualizer* mpGridVisualizer;
+	GridGraph* mpGridGraph;
+	DebugDisplay* mpDebugDisplay;
+	GridPathfinder* mpPathfinder;
 
 	//should be somewhere else
 	GraphicsBufferID mBackgroundBufferID = "woods";

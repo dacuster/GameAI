@@ -27,16 +27,11 @@
 #include "Font.h"
 
 
-// Common Library
-
-#include "Game.h"
-
-
 // Game Library
 #include "DebugDisplay.h"
 
 #include "DebugContent.h"
-#include "GameApp.h"
+#include "Game.h"
 
 
 DebugDisplay::DebugDisplay( const Vector2D& pos, DebugContent* pContent )
@@ -53,7 +48,7 @@ DebugDisplay::~DebugDisplay()
 void DebugDisplay::draw( GraphicsBuffer* pTarget )
 {
 	std::string toDisplay = mpContent->getDebugString();
-	gpGame->getGraphicsSystem()->writeText(*pTarget, mPos, *gpGame->getFontManager()->getFont(COUR_20_FONT_ID), RED_COLOR, toDisplay);
+	//gpGame->getGraphicsSystem()->writeText(*pTarget, mPos, *gpGame->getFontManager()->getFont(COUR_24_FONT_ID), RED_COLOR, toDisplay);
 
 }
 

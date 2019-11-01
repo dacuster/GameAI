@@ -10,7 +10,7 @@
 
 const float MINIMUM_VIEW_ANGLE = 1.0f;
 const float MINIMUM_OUTER_ANGLE = 5.0f;
-const float MINIMUM_TIME_TO_VIEW = 0.001;
+const float MINIMUM_TIME_TO_VIEW = 0.001f;
 
 class FaceSteering
 	: public virtual Steering

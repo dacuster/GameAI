@@ -29,7 +29,6 @@
 
 // Common Library
 
-#include "Game.h"
 #include "Grid.h"
 
 
@@ -43,7 +42,7 @@
 #include "Node.h"
 #include "Graph.h"
 #include "GridGraph.h"
-#include "GameApp.h"
+#include "Game.h"
 
 PathToMessage::PathToMessage( const Vector2D& from, const Vector2D& to )
 :GameMessage(PATH_TO_MESSAGE)
@@ -58,16 +57,12 @@ PathToMessage::~PathToMessage()
 
 void PathToMessage::process()
 {
-	GameApp* pGame = dynamic_cast<GameApp*>(gpGame);
-	if( pGame != NULL ) 
-	{
-		GridPathfinder* pPathfinder = pGame->getPathfinder();
-		GridGraph* pGridGraph = pGame->getGridGraph();
-		Grid* pGrid = pGame->getGrid();
-		int fromIndex = pGrid->getCellIndexFromPixelXY( (int)mFrom.getX(), (int)mFrom.getY() );
-		int toIndex = pGrid->getCellIndexFromPixelXY( (int)mTo.getX(), (int)mTo.getY() );
-		Node* pFromNode = pGridGraph->getNode( fromIndex );
-		Node* pToNode = pGridGraph->getNode( toIndex );
-		pPathfinder->findPath( pFromNode, pToNode );
-	}
+	GridPathfinder* pPathfinder = gpGame->getPathfinder();
+	GridGraph* pGridGraph = gpGame->getGridGraph();
+	Grid* pGrid = gpGame->getGrid();
+	int fromIndex = pGrid->getCellIndexFromPixelXY( (int)mFrom.getX(), (int)mFrom.getY() );
+	int toIndex = pGrid->getCellIndexFromPixelXY( (int)mTo.getX(), (int)mTo.getY() );
+	Node* pFromNode = pGridGraph->getNode( fromIndex );
+	Node* pToNode = pGridGraph->getNode( toIndex );
+	pPathfinder->findPath( pFromNode, pToNode );
 }

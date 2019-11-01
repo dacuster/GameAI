@@ -115,6 +115,15 @@
     <ClCompile Include="Path.cpp">
       <Filter>Source Files\Pathfinder</Filter>
     </ClCompile>
+    <ClCompile Include="GridVisualizer.cpp">
+      <Filter>Source Files\Grid</Filter>
+    </ClCompile>
+    <ClCompile Include="Grid.cpp">
+      <Filter>Source Files\Grid</Filter>
+    </ClCompile>
+    <ClCompile Include="GridCell.cpp">
+      <Filter>Source Files\Grid</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Steering.h">
@@ -234,6 +243,15 @@
     <ClInclude Include="Path.h">
       <Filter>Header Files\Pathfinder</Filter>
     </ClInclude>
+    <ClInclude Include="GridVisualizer.h">
+      <Filter>Header Files\Grid</Filter>
+    </ClInclude>
+    <ClInclude Include="Grid.h">
+      <Filter>Header Files\Grid</Filter>
+    </ClInclude>
+    <ClInclude Include="GridCell.h">
+      <Filter>Header Files\Grid</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
@@ -292,6 +310,12 @@
     </Filter>
     <Filter Include="Header Files\Graph">
       <UniqueIdentifier>{65143cea-96d8-4a97-a6a4-fbfad434a71f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Grid">
+      <UniqueIdentifier>{a4450a1b-a430-4620-813e-1c4f5a6df194}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Grid">
+      <UniqueIdentifier>{48f84256-a8c9-4722-9d4e-1ec99fff9d5c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

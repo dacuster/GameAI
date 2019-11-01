@@ -111,17 +111,17 @@ Steering* FaceSteering::getSteering()
 
 	// Calculate the difference in angle between the owner and the destination vector.
 	// Add PI/2 to the owner angle because of image orientation.
-	float ownerAngle = atan2f(pOwner->getDirection().getY(), pOwner->getDirection().getX()) + 0.5f * M_PI;
+	float ownerAngle = atan2f(pOwner->getDirection().getY(), pOwner->getDirection().getX()) + 0.5f * (float)M_PI;
 	float pointAngle = atan2f(-diff.getY(), diff.getX());
 
 	// Prevent negative values.
-	if (ownerAngle < 0)
+	if (ownerAngle < 0.0f)
 	{
-		ownerAngle += 2 * M_PI;
+		ownerAngle += 2.0f * (float)M_PI;
 	}
-	if (pointAngle < 0)
+	if (pointAngle < 0.0f)
 	{
-		pointAngle += 2 * M_PI;
+		pointAngle += 2.0f * (float)M_PI;
 	}
 
 	// Convert to degrees.
@@ -136,7 +136,7 @@ Steering* FaceSteering::getSteering()
 
 	float absAngle = abs(compareAngle);
 
-	float velocity = diffAngle > 0 ? 1 : -1;
+	float velocity = diffAngle > 0.0f ? 1.0f : -1.0f;
 	float targetSpeed = data.maxSpeed;
 
 	// Stop

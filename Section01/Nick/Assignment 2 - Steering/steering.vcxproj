@@ -28,8 +28,11 @@
     <ClInclude Include="GameMessage.h" />
     <ClInclude Include="GameMessageManager.h" />
     <ClInclude Include="Graph.h" />
+    <ClInclude Include="Grid.h" />
+    <ClInclude Include="GridCell.h" />
     <ClInclude Include="GridGraph.h" />
     <ClInclude Include="GridPathfinder.h" />
+    <ClInclude Include="GridVisualizer.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="Path.h" />
     <ClInclude Include="Pathfinder.h" />
@@ -67,8 +70,11 @@
     <ClCompile Include="GameMessage.cpp" />
     <ClCompile Include="GameMessageManager.cpp" />
     <ClCompile Include="Graph.cpp" />
+    <ClCompile Include="Grid.cpp" />
+    <ClCompile Include="GridCell.cpp" />
     <ClCompile Include="GridGraph.cpp" />
     <ClCompile Include="GridPathfinder.cpp" />
+    <ClCompile Include="GridVisualizer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="Path.cpp" />

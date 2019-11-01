@@ -6,6 +6,10 @@
 **		I certify that this assignment is entirely my own work.	    **
 *********************************************************************/
 
+#include <fstream>
+#include <vector>
+#include <list>
+
 #include <stdio.h>
 #include <assert.h>
 #include <iostream>
@@ -24,6 +28,7 @@
 #include "DeanLibDefines.h"
 #include "MemoryPool.h"
 #include "CircularQueue.h"
+#include "MultiDimensionalArray.h"
 
 // GraphicsLib
 #include "Defines.h"
@@ -55,6 +60,20 @@
 #include "UnitCreateMessage.h"
 #include "UnitDestroyMessage.h"
 #include "ComponentManager.h"
+#include "Grid.h"
+#include "GridVisualizer.h"
+#include "Node.h"
+#include "Graph.h"
+#include "GridGraph.h"
+#include "Pathfinder.h"
+#include "Path.h"
+#include "GridPathfinder.h"
+#include "DepthFirstPathfinder.h"
+#include "DebugContent.h"
+#include "PathfindingDebugContent.h"
+#include "DebugDisplay.h"
+#include "PathToMessage.h"
+#include "SwitchPathfindingMessage.h"
 
 Game* gpGame = NULL;
 
@@ -74,6 +93,11 @@ Game::Game()
 	,mpUnitManager(NULL)
 	,mpRepository(NULL)
 	,mTimeLastFrame(0.0f)
+	,mpGrid(NULL)
+	,mpGridGraph(NULL)
+	,mpPathfinder(NULL)
+	,mpDebugDisplay(NULL)
+	,mpGridVisualizer(NULL)
 {
 }
 
@@ -107,6 +131,22 @@ bool Game::init()
 	mpFontManager = new FontManager;
 
 	mpMessageManager = new GameMessageManager();
+
+	GraphicsSystem* pGraphicsSystem = getGraphicsSystem();
+
+	//create and load the Grid, GridBuffer, and GridVisualizer
+	mpGrid = new Grid(pGraphicsSystem->getDisplayWidth(), pGraphicsSystem->getDisplayHeight(), GRID_SIZE_X, GRID_SIZE_Y);
+	mpGridVisualizer = new GridVisualizer(mpGrid);
+	std::ifstream theStream(gFileName);
+	mpGrid->load(theStream);
+
+	//create the GridGraph for pathfinding
+	mpGridGraph = new GridGraph(mpGrid);
+	//init the nodes and connections
+	mpGridGraph->init();
+
+	// Create a default pathfinder.
+	mpPathfinder = new DepthFirstPathfinder(mpGridGraph);
 
 	UINT maxUnits = mpRepository->getEntry(DataKeyEnum::MAX_UNITS).getUIntVal();
 	mpComponentManager = new ComponentManager(maxUnits);
@@ -149,16 +189,6 @@ bool Game::init()
 	if (pTargetBuffer != NULL)
 	{
 		mpSpriteManager->createAndManageSprite(TARGET_SPRITE_ID, pTargetBuffer, 0, 0, (float)pTargetBuffer->getWidth(), (float)pTargetBuffer->getHeight());
-	}
-
-	//setup units
-	Unit* pUnit = NULL;
-
-	if (pArrowSprite)
-	{
-		pUnit = mpUnitManager->createPlayerUnit(*pArrowSprite, false, PositionData(Vector2D(GraphicsSystem::getDisplayWidth() / 2.0f, GraphicsSystem::getDisplayHeight() / 2.0f), 0.0f));
-		pUnit->setShowTarget(true);
-		pUnit->setSteering(Steering::ARRIVE_AND_FACE, Vector2D((int)GraphicsSystem::getDisplayWidth(), (int)GraphicsSystem::getDisplayHeight()));
 	}
 
 	mTargetFPS = mpRepository->getEntry(DataKeyEnum::TARGET_FPS).getUIntVal();
@@ -391,4 +421,13 @@ float genRandomFloat()
 {
 	float r = (float)rand()/(float)RAND_MAX;
 	return r;
+}
+
+void Game::switchPathfinder(GridPathfinder* pPathfinder)
+{
+	delete mpPathfinder;
+
+	mpPathfinder = pPathfinder;
+
+	return;
 }

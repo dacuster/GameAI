@@ -52,7 +52,7 @@ void PositionComponent::wrapCoords()
 
 void PositionComponent::updateFacing()
 {
-	mData.facing = fmodf(mData.facing, 2 * M_PI);
+	mData.facing = fmodf(mData.facing, 2.0f * (float)M_PI);
 
 	return;
 }
