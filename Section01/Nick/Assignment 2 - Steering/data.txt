@@ -1,0 +1,23 @@
+screen_size 1024 768
+target_fps 24
+max_units 100
+unit_max_acc 250.0
+unit_max_speed 250.0
+unit_max_rot_acc 10.0
+unit_max_rot_vel 5.0
+default_asset_directory ../../../shared/Assets/
+arrow_icon arrow.png
+enemy_arrow_icon enemy-arrow.png
+target_icon target.png
+background_image wallpaper.bmp
+courrier_font cour.ttf
+font_size 24
+arrive_radius 20
+arrive_slow_radius 120
+arrive_time .1
+view_angle 10
+outer_view_angle 15
+time_to_view .01
+wander_arrive_radius 30
+chase_radius 150
+create_unit_count 5
