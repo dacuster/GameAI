@@ -7,20 +7,29 @@
 *********************************************************************/
 
 #include <string>
+#include <vector>
+#include <cassert>
+#include <unordered_map>
+#include <map>
+
 
 // DeanLib
 #include "Trackable.h"
 #include "PerformanceTracker.h"
 #include "Vector2D.h"
 #include "DataRepository.h"
+#include "DeanLibDefines.h"
 #include "Timer.h"
+#include "MemoryPool.h"
 
 // GraphicsLib
+#include "GraphicsSystem.h"
+#include "SpriteManager.h"
+#include "Sprite.h"
 #include "Defines.h"
 
-#include "GraphicsSystem.h"
-
 // Project
+#include "Path.h"
 #include "Game.h"
 #include "Component.h"
 #include "DataLoader.h"
@@ -34,6 +43,7 @@
 #include "WanderSteering.h"
 #include "ArriveAndFaceSteering.h"
 #include "WanderAndChaseSteering.h"
+#include "PathSteering.h";
 
 //#include "ComponentManager.h"
 //#include "Unit.h"
@@ -121,9 +131,9 @@ void SteeringComponent::setData(const SteeringData& data)
 		}
 		case Steering::FOLLOW_PATH:
 		{
-			//delete mpSteering;
+			delete mpSteering;
 			// TODO: Create Follow Path steering before creating here.
-			//mpSteering = new FollowPathSteering();
+			mpSteering = new PathSteering(data.ownerID, data.targetLoc, data.targetID);
 			break;
 		}
 		default:

@@ -112,7 +112,7 @@ Unit* UnitManager::createRandomUnit(const Sprite& sprite, Steering::SteeringType
 
 	if (pUnit != NULL)
 	{
-		pUnit->setSteering(steeringType, Vector2D((int)(GraphicsSystem::getDisplayWidth() / 2), (int)(GraphicsSystem::getDisplayHeight() / 2)), PLAYER_UNIT_ID);
+		pUnit->setSteering(steeringType, Vector2D((int)(GraphicsSystem::getDisplayWidth() / 2), (int)(GraphicsSystem::getDisplayHeight() / 2)), INVALID_UNIT_ID);
 		pUnit->setShowTarget(!shouldWrap);
 	}
 
@@ -160,11 +160,13 @@ void UnitManager::deleteUnit(const UnitID& id)
 
 void UnitManager::deleteAllUnits()
 {
-	int counter = 0;
+	std::unordered_map<UnitID, Unit*>::iterator iterator = mUnitMap.begin();
 
-	while (!mUnitMap.empty())
+	while (iterator != mUnitMap.end())
 	{
-		deleteUnit(0);
+		UnitID id = iterator->first;
+		iterator++;
+		deleteUnit(id);
 	}
 
 	return;

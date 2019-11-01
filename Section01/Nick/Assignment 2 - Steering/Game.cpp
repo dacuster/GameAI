@@ -195,6 +195,7 @@ bool Game::init()
 	PathfindingDebugContent* pContent = new PathfindingDebugContent(mpPathfinder);
 	mpDebugDisplay = new DebugDisplay(Vector2D(0, 12), pContent);
 
+
 	mTargetFPS = mpRepository->getEntry(DataKeyEnum::TARGET_FPS).getUIntVal();
 	mTargetElapsedTime = 1000.0f / mTargetFPS;
 
@@ -319,33 +320,50 @@ void Game::processLoop()
 	mpMessageManager->processMessagesForThisframe();
 
 	// TODO: Add path to message for mouse clicks.
-	if (pInputSystem->isMouseButtonPressed(InputSystem::LEFT))
+	if (pInputSystem->isMouseButtonPressed(InputSystem::LEFT) && !mMousePressedLeft)
 	{
+		mMousePressedLeft = true;
 		GameMessage* pMessage = new PlayerMoveToMessage(pos);
 		MESSAGE_MANAGER->addMessage(pMessage, 0);
 	}
-
-	if(pInputSystem->isKeyPressed(InputSystem::ESCAPE_KEY))
+	else if (!pInputSystem->isMouseButtonPressed(InputSystem::LEFT))
 	{
-		mShouldExit = true;
+		mMousePressedLeft = false;
 	}
 
-	if (pInputSystem->isKeyPressed(InputSystem::S_KEY))
+	if(pInputSystem->isKeyPressed(InputSystem::ESCAPE_KEY) && !mKeyPressedEscape)
 	{
+		mKeyPressedEscape = true;
+		mShouldExit = true;
+	}
+	else if (!pInputSystem->isKeyPressed(InputSystem::ESCAPE_KEY))
+	{
+		mKeyPressedEscape = false;
+	}
+
+	if (pInputSystem->isKeyPressed(InputSystem::S_KEY) && !mKeyPressedS)
+	{
+		mKeyPressedS = true;
+
 		GameMessage* pDestroyMessage = new UnitDestroyMessage();
 		MESSAGE_MANAGER->addMessage(pDestroyMessage, 0);
 		
-		GameMessage* pCreateMessage = new UnitCreateMessage(*mpSpriteManager->getSprite(AI_ICON_SPRITE_ID), Steering::FOLLOW_PATH, 10);
+		GameMessage* pCreateMessage = new UnitCreateMessage(*mpSpriteManager->getSprite(AI_ICON_SPRITE_ID), Steering::ARRIVE_AND_FACE, 10);
 		MESSAGE_MANAGER->addMessage(pCreateMessage, 0);
 	}
-
-	if (pInputSystem->isKeyPressed(InputSystem::D_KEY))
+	else if (!pInputSystem->isKeyPressed(InputSystem::S_KEY))
 	{
-		mDrawDebugData = true;
+		mKeyPressedS = false;
 	}
-	else
+
+	if (pInputSystem->isKeyPressed(InputSystem::D_KEY) && !mKeyPressedD)
 	{
-		mDrawDebugData = false;
+		mKeyPressedD = true;
+		mDrawDebugData = !mDrawDebugData;
+	}
+	else if (!pInputSystem->isKeyPressed(InputSystem::D_KEY))
+	{
+		mKeyPressedD = false;
 	}
 }
 

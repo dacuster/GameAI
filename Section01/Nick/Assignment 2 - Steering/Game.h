@@ -108,6 +108,11 @@ private:
 
 	void drawDebugData();
 
+	bool mKeyPressedS = false;
+	bool mKeyPressedD = false;
+	bool mKeyPressedEscape = false;
+	bool mMousePressedLeft = false;
+
 };
 
 float genRandomBinomial();//range -1:1 from "Artificial Intelligence for Games", Millington and Funge
