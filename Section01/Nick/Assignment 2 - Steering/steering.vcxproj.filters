@@ -70,6 +70,51 @@
     <ClCompile Include="WanderAndChaseSteering.cpp">
       <Filter>Source Files\Steering</Filter>
     </ClCompile>
+    <ClCompile Include="Pathfinder.cpp">
+      <Filter>Source Files\Pathfinder</Filter>
+    </ClCompile>
+    <ClCompile Include="AStarPathfinder.cpp">
+      <Filter>Source Files\Pathfinder</Filter>
+    </ClCompile>
+    <ClCompile Include="DepthFirstPathfinder.cpp">
+      <Filter>Source Files\Pathfinder</Filter>
+    </ClCompile>
+    <ClCompile Include="DijkstraPathfinder.cpp">
+      <Filter>Source Files\Pathfinder</Filter>
+    </ClCompile>
+    <ClCompile Include="Node.cpp">
+      <Filter>Source Files\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="Connection.cpp">
+      <Filter>Source Files\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph.cpp">
+      <Filter>Source Files\Graph</Filter>
+    </ClCompile>
+    <ClCompile Include="GridGraph.cpp">
+      <Filter>Source Files\Graph</Filter>
+    </ClCompile>
+    <ClCompile Include="GridPathfinder.cpp">
+      <Filter>Source Files\Pathfinder</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugDisplay.cpp">
+      <Filter>Source Files\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="PathfindingDebugContent.cpp">
+      <Filter>Source Files\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="PriorityQueueHack.cpp">
+      <Filter>Source Files\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="SwitchPathfindingMessage.cpp">
+      <Filter>Source Files\Messaging</Filter>
+    </ClCompile>
+    <ClCompile Include="PathToMessage.cpp">
+      <Filter>Source Files\Messaging</Filter>
+    </ClCompile>
+    <ClCompile Include="Path.cpp">
+      <Filter>Source Files\Pathfinder</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Steering.h">
@@ -141,6 +186,54 @@
     <ClInclude Include="WanderAndChaseSteering.h">
       <Filter>Header Files\Steering</Filter>
     </ClInclude>
+    <ClInclude Include="AStarPathfinder.h">
+      <Filter>Header Files\Pathfinder</Filter>
+    </ClInclude>
+    <ClInclude Include="DepthFirstPathfinder.h">
+      <Filter>Header Files\Pathfinder</Filter>
+    </ClInclude>
+    <ClInclude Include="DijkstraPathfinder.h">
+      <Filter>Header Files\Pathfinder</Filter>
+    </ClInclude>
+    <ClInclude Include="Pathfinder.h">
+      <Filter>Header Files\Pathfinder</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>Header Files\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="Connection.h">
+      <Filter>Header Files\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="GridGraph.h">
+      <Filter>Header Files\Graph</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph.h">
+      <Filter>Header Files\Graph</Filter>
+    </ClInclude>
+    <ClInclude Include="GridPathfinder.h">
+      <Filter>Header Files\Pathfinder</Filter>
+    </ClInclude>
+    <ClInclude Include="PriorityQueueHack.h">
+      <Filter>Header Files\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugContent.h">
+      <Filter>Header Files\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugDisplay.h">
+      <Filter>Header Files\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="PathfindingDebugContent.h">
+      <Filter>Header Files\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="PathToMessage.h">
+      <Filter>Header Files\Messaging</Filter>
+    </ClInclude>
+    <ClInclude Include="SwitchPathfindingMessage.h">
+      <Filter>Header Files\Messaging</Filter>
+    </ClInclude>
+    <ClInclude Include="Path.h">
+      <Filter>Header Files\Pathfinder</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
@@ -164,9 +257,6 @@
     <Filter Include="Header Files\Util">
       <UniqueIdentifier>{f1f8b550-13c6-4421-8c34-2355daeda283}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Graphics">
-      <UniqueIdentifier>{d9580c2a-964f-46dd-87dd-a4da057d3768}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Messaging">
       <UniqueIdentifier>{db5bf32e-639d-4ac3-8ada-24db94aa84d2}</UniqueIdentifier>
     </Filter>
@@ -184,6 +274,24 @@
     </Filter>
     <Filter Include="Header Files\Components">
       <UniqueIdentifier>{3c9b3ca9-ee14-4c27-8903-1ed3fce18cb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Pathfinder">
+      <UniqueIdentifier>{6808ee81-c698-48c2-a65f-4aa9f5b9ebc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Pathfinder">
+      <UniqueIdentifier>{b0d269e4-4353-43d0-907f-85a3154051bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Nodes">
+      <UniqueIdentifier>{25680655-a3eb-4020-a646-f27a00ceb076}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Nodes">
+      <UniqueIdentifier>{30ac8f26-a7a4-4a9e-867f-4400e63632e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graph">
+      <UniqueIdentifier>{79c61a78-1f55-4ea0-aa2a-efaacb95fa02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graph">
+      <UniqueIdentifier>{65143cea-96d8-4a97-a6a4-fbfad434a71f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
