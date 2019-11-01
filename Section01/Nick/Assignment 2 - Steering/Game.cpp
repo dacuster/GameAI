@@ -317,14 +317,32 @@ void Game::processLoop()
 
 	Vector2D pos = pInputSystem->getCurrentMousePos();
 
-	mpMessageManager->processMessagesForThisframe();
+	MESSAGE_MANAGER->processMessagesForThisframe();
 
 	// TODO: Add path to message for mouse clicks.
 	if (pInputSystem->isMouseButtonPressed(InputSystem::LEFT) && !mMousePressedLeft)
 	{
 		mMousePressedLeft = true;
-		GameMessage* pMessage = new PlayerMoveToMessage(pos);
-		MESSAGE_MANAGER->addMessage(pMessage, 0);
+
+		static Vector2D lastPos(0.0f, 0.0f);
+		Vector2D pos = pInputSystem->getCurrentMousePos();
+		if ((lastPos.getX() != pos.getX() || lastPos.getY() != pos.getY()) && mpGrid->getValueAtPixelXY((int)pos.getX(), (int)pos.getY()) != BLOCKING_VALUE)
+		{
+			Uint32 unitCount = mpUnitManager->getNumUnits();
+
+			for (Uint32 currentUnit = 0; currentUnit < unitCount; currentUnit++)
+			{
+				std::unordered_map<UnitID, Unit*> unitMap = mpUnitManager->getAllUnits();
+
+				for (std::unordered_map<UnitID, Unit*>::iterator iterator = unitMap.begin(); iterator != unitMap.end(); ++iterator)
+				{
+					GameMessage* pMessage = new PathToMessage(iterator->second->getPositionComponent()->getPosition(), pos, iterator->first);
+					MESSAGE_MANAGER->addMessage(pMessage, 0);
+				}
+			}
+
+			lastPos = pos;
+		}
 	}
 	else if (!pInputSystem->isMouseButtonPressed(InputSystem::LEFT))
 	{
@@ -348,7 +366,7 @@ void Game::processLoop()
 		GameMessage* pDestroyMessage = new UnitDestroyMessage();
 		MESSAGE_MANAGER->addMessage(pDestroyMessage, 0);
 		
-		GameMessage* pCreateMessage = new UnitCreateMessage(*mpSpriteManager->getSprite(AI_ICON_SPRITE_ID), Steering::ARRIVE_AND_FACE, 10);
+		GameMessage* pCreateMessage = new UnitCreateMessage(*mpSpriteManager->getSprite(AI_ICON_SPRITE_ID), Steering::FOLLOW_PATH, 10);
 		MESSAGE_MANAGER->addMessage(pCreateMessage, 0);
 	}
 	else if (!pInputSystem->isKeyPressed(InputSystem::S_KEY))

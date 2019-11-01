@@ -43,7 +43,7 @@
 #include "WanderSteering.h"
 #include "ArriveAndFaceSteering.h"
 #include "WanderAndChaseSteering.h"
-#include "PathSteering.h";
+#include "PathSteering.h"
 
 //#include "ComponentManager.h"
 //#include "Unit.h"

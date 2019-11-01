@@ -201,6 +201,11 @@ void UnitManager::deleteRandomUnit()
 	}
 }
 
+std::unordered_map<UnitID, Unit*> UnitManager::getAllUnits() const
+{
+	return mUnitMap;
+}
+
 void UnitManager::drawAll() const
 {
 	for (auto it = mUnitMap.begin(); it != mUnitMap.end(); ++it)

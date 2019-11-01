@@ -30,6 +30,8 @@ public:
 	void deleteAllUnits();
 	void deleteRandomUnit();
 
+	std::unordered_map<UnitID, Unit*> getAllUnits() const;
+
 	void drawAll() const;
 	void updateAll(float elapsedTime);
 
