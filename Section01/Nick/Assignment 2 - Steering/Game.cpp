@@ -328,17 +328,13 @@ void Game::processLoop()
 		Vector2D pos = pInputSystem->getCurrentMousePos();
 		if ((lastPos.getX() != pos.getX() || lastPos.getY() != pos.getY()) && mpGrid->getValueAtPixelXY((int)pos.getX(), (int)pos.getY()) != BLOCKING_VALUE)
 		{
-			Uint32 unitCount = mpUnitManager->getNumUnits();
+			std::unordered_map<UnitID, Unit*> unitMap = mpUnitManager->getAllUnits();
 
-			for (Uint32 currentUnit = 0; currentUnit < unitCount; currentUnit++)
+			for (std::unordered_map<UnitID, Unit*>::iterator iterator = unitMap.begin(); iterator != unitMap.end(); ++iterator)
 			{
-				std::unordered_map<UnitID, Unit*> unitMap = mpUnitManager->getAllUnits();
-
-				for (std::unordered_map<UnitID, Unit*>::iterator iterator = unitMap.begin(); iterator != unitMap.end(); ++iterator)
-				{
-					GameMessage* pMessage = new PathToMessage(iterator->second->getPositionComponent()->getPosition(), pos, iterator->first);
-					MESSAGE_MANAGER->addMessage(pMessage, 0);
-				}
+				Vector2D position = iterator->second->getPositionComponent()->getPosition();
+				GameMessage* pMessage = new PathToMessage(position, pos, iterator->first);
+				MESSAGE_MANAGER->addMessage(pMessage, 0);
 			}
 
 			lastPos = pos;

@@ -101,8 +101,11 @@ void PathToMessage::process()
 
 	if (pSteering->getType() == Steering::FOLLOW_PATH)
 	{
-		PathSteering* pPathSteering = dynamic_cast<PathSteering*>(pSteering);
+		PathSteering* pPathSteering = dynamic_cast<PathSteering*>(pSteering->getSteering());
 
-		pPathSteering->setPath(newPath);
+		if (pPathSteering != nullptr)
+		{
+			pPathSteering->setPath(newPath);
+		}
 	}
 }

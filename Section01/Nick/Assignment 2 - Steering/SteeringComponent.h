@@ -82,6 +82,8 @@ public:
 	float getArriveTimeToTarget() const { return mData.arriveTimeToTarget; };
 	void setArriveTimeToTarget(float timeToTarget) { mData.arriveTimeToTarget = timeToTarget; };
 
+	Steering* getSteering() const { return mpSteering; };
+
 private:
 	ComponentID mPhysicsComponentID;
 	SteeringData mData;

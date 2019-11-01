@@ -133,7 +133,7 @@ void SteeringComponent::setData(const SteeringData& data)
 		{
 			delete mpSteering;
 			// TODO: Create Follow Path steering before creating here.
-			mpSteering = new PathSteering(data.ownerID, data.targetLoc, data.targetID);
+			mpSteering = new PathSteering(data.ownerID, data.targetLoc, data.targetID, data.arriveRadius, data.arriveSlowRadius, data.arriveTimeToTarget, data.viewAngle, data.outerViewAngle, data.timeToView);
 			break;
 		}
 		default:

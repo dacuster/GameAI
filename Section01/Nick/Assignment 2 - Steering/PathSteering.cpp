@@ -86,7 +86,6 @@ PathSteering::PathSteering(
 
 void PathSteering::setPath(Path path)
 {
-	pathIndex = 0;
 	mPath = path;
 }
 
@@ -100,8 +99,22 @@ Steering* PathSteering::getSteering()
 	Unit* pOwner = gpGame->getUnitManager()->getUnit(mOwnerID);
 	PhysicsData data = pOwner->getPhysicsComponent()->getData();
 
+	Node* pNode = mPath.peekNextNode();
+
+	if (pNode != nullptr)
+	{
+		// Make sure the target is the next node in the path at all times.
+		mTargetLoc = pNode->getPosition();
+	}
+
 	PhysicsData arriveData = ArriveSteering::getSteering()->getData();
 	PhysicsData faceData = FaceSteering::getSteering()->getData();
+
+
+	if (arriveData.vel == ZERO_VECTOR2D)
+	{
+		mPath.getAndRemoveNextNode();
+	}
 
 	data.acc = arriveData.acc;
 	data.vel = arriveData.vel;
