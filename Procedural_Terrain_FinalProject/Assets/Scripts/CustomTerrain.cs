@@ -12,6 +12,12 @@ public class CustomTerrain : MonoBehaviour
     // Random height ranges. (min and max)
     public Vector2 randomHeightRange = new Vector2(0.0f, 0.1f);
 
+    // Texture image to generate height map from pixel colors.
+    public Texture2D heightMapImage;
+
+    // 
+    public Vector3 heightMapScale = new Vector3(1.0f, 1.0f, 1.0f);
+
     // The terrain object.
     public Terrain terrain;
 
@@ -39,6 +45,23 @@ public class CustomTerrain : MonoBehaviour
         terrainData.SetHeights(0, 0, heightMap);
 
         return;
+    }
+
+    // Use image to generate heoght map from.
+    public void LoadTexture()
+    {
+        float[,] heightMap;
+        heightMap = new float[terrainData.heightmapWidth, terrainData.heightmapHeight];
+
+        for (int x = 0; x < terrainData.heightmapWidth; x++)
+        {
+            for (int z = 0; z < terrainData.heightmapHeight; z++)
+            {
+                heightMap[x, z] = heightMapImage.GetPixel((int)(x * heightMapScale.x), (int)(z * heightMapScale.z)).grayscale * heightMapScale.y;
+            }
+        }
+
+        terrainData.SetHeights(0, 0, heightMap);
     }
 
     // Reset terrain height map.

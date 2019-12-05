@@ -8,15 +8,36 @@ using EditorGUITable;   // Download from asset store. $10
 
 public class CustomTerrainEditor : Editor
 {
+    /*************************
+    **  PROPERTIES (START)  **
+    *************************/
     // Used to link serialized property between this script and the linked script.
     SerializedProperty randomHeightRange;
+    SerializedProperty heightMapScale;
+    SerializedProperty heightMapImage;
 
+    /***********************
+    **  PROPERTIES (END)  **
+    ***********************/
+
+
+    /************************
+    **  FOLD OUTS (START)  **
+    ************************/
     // Show random fold out check.
     private bool showRandom = false;
+    private bool showLoadHeights = false;
+
+    /**********************
+    **  FOLD OUTS (END)  **
+    **********************/
 
     private void OnEnable()
     {
+        // Get the properties from the linked script.
         randomHeightRange = serializedObject.FindProperty("randomHeightRange");
+        heightMapScale = serializedObject.FindProperty("heightMapScale");
+        heightMapImage = serializedObject.FindProperty("heightMapImage");
 
         return;
     }
@@ -49,6 +70,21 @@ public class CustomTerrainEditor : Editor
             {
                 // Create a random terrain.
                 terrain.RandomTerrain();
+            }
+        }
+
+        showLoadHeights = EditorGUILayout.Foldout(showLoadHeights, "Load Heights");
+
+        if (showLoadHeights)
+        {
+            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+            GUILayout.Label("Load Heights From Texture", EditorStyles.boldLabel);
+            EditorGUILayout.PropertyField(heightMapImage);
+            EditorGUILayout.PropertyField(heightMapScale);
+
+            if (GUILayout.Button("Load Texture"))
+            {
+                terrain.LoadTexture();
             }
         }
 
