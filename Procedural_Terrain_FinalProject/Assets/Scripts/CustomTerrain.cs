@@ -9,6 +9,16 @@ using System.Linq;
 
 public class CustomTerrain : MonoBehaviour
 {
+    // Random height ranges. (min and max)
+    public Vector2 randomHeightRange = new Vector2(0.0f, 0.1f);
+
+    public void RandomTerrain()
+    {
+
+
+        return;
+    }
+
     private void Awake()
     {
         // Create a tag manager and add the existing tags to it.
