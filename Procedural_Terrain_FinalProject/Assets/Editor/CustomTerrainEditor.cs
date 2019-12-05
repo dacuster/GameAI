@@ -44,12 +44,22 @@ public class CustomTerrainEditor : Editor
             // Display the property field.
             EditorGUILayout.PropertyField(randomHeightRange);
 
-            // Button press check.
+            // Generate random terrain height map.
             if (GUILayout.Button("Random Heights"))
             {
                 // Create a random terrain.
                 terrain.RandomTerrain();
             }
+        }
+
+        // Create horizontal divider (slider) bar.
+        EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+
+        // Reset terrain height map to zero.
+        if (GUILayout.Button("Reset Heights"))
+        {
+            // Reset the terrain.
+            terrain.ResetTerrain();
         }
 
         // Apply new changes at the end of the function.

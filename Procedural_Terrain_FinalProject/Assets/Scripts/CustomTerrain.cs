@@ -12,11 +12,67 @@ public class CustomTerrain : MonoBehaviour
     // Random height ranges. (min and max)
     public Vector2 randomHeightRange = new Vector2(0.0f, 0.1f);
 
+    // The terrain object.
+    public Terrain terrain;
+
+    // The terrain data object.
+    public TerrainData terrainData;
+
+    // Generate a random terrain height map.
     public void RandomTerrain()
     {
+        // 2D height map array. Get current height map.
+        float[,] heightMap = terrainData.GetHeights(0, 0, terrainData.heightmapWidth, terrainData.heightmapHeight);
 
+        //heightMap = new float[terrainData.heightmapWidth, terrainData.heightmapHeight];
+
+        for (int x = 0; x < terrainData.heightmapWidth; x++)
+        {
+            for (int z = 0; z < terrainData.heightmapHeight; z++)
+            {
+                // Set the height at the x,z coordinate based on the random range minimum and maximum values.
+                heightMap[x, z] += UnityEngine.Random.Range(randomHeightRange.x, randomHeightRange.y);
+            }
+        }
+
+        // Set all the height values added to the height map.
+        terrainData.SetHeights(0, 0, heightMap);
 
         return;
+    }
+
+    // Reset terrain height map.
+    public void ResetTerrain()
+    {
+        // 2D height map array.
+        float[,] heightMap;
+
+        heightMap = new float[terrainData.heightmapWidth, terrainData.heightmapHeight];
+
+        for (int x = 0; x < terrainData.heightmapWidth; x++)
+        {
+            for (int z = 0; z < terrainData.heightmapHeight; z++)
+            {
+                // Set the height at the x,z coordinate back to zero.
+                heightMap[x, z] = 0.0f;
+            }
+        }
+
+        // Set all the height values added to the height map.
+        terrainData.SetHeights(0, 0, heightMap);
+
+        return;
+    }
+
+    private void OnEnable()
+    {
+        Debug.Log("Initializing Terrain Data");
+
+        // Get the terrain component.
+        terrain = GetComponent<Terrain>();
+
+        // Get the terrain data from the active terrain component. (used for multiple terrains)
+        terrainData = Terrain.activeTerrain.terrainData;
     }
 
     private void Awake()
