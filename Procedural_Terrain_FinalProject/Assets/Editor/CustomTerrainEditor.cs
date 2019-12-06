@@ -19,6 +19,9 @@ public class CustomTerrainEditor : Editor
     SerializedProperty perlinYScale;
     SerializedProperty perlinOffsetX;
     SerializedProperty perlinOffsetY;
+    SerializedProperty perlinOctaves;
+    SerializedProperty perlinPersistance;
+    SerializedProperty perlinHeightScale;
 
     /***********************
     **  PROPERTIES (END)  **
@@ -47,6 +50,9 @@ public class CustomTerrainEditor : Editor
         perlinYScale = serializedObject.FindProperty("perlinYScale");
         perlinOffsetX = serializedObject.FindProperty("perlinOffsetX");
         perlinOffsetY = serializedObject.FindProperty("perlinOffsetY");
+        perlinOctaves = serializedObject.FindProperty("perlinOctaves");
+        perlinPersistance = serializedObject.FindProperty("perlinPersistance");
+        perlinHeightScale = serializedObject.FindProperty("perlinHeightScale");
 
         return;
     }
@@ -107,10 +113,18 @@ public class CustomTerrainEditor : Editor
             EditorGUILayout.Slider(perlinYScale, 0, 1, new GUIContent("Y Scale"));
             EditorGUILayout.IntSlider(perlinOffsetX, 0, 10000, new GUIContent("Offset X"));
             EditorGUILayout.IntSlider(perlinOffsetY, 0, 10000, new GUIContent("Offset Y"));
+            EditorGUILayout.IntSlider(perlinOctaves, 0, 10, new GUIContent("Octaves"));
+            EditorGUILayout.Slider(perlinPersistance, 0, 10, new GUIContent("Persistance"));
+            EditorGUILayout.Slider(perlinHeightScale, 0, 1, new GUIContent("Height Scale"));
 
-            if (GUILayout.Button("Perlin"))
+            if (GUILayout.Button("Simple Perlin"))
             {
-                terrain.Perlin();
+                terrain.SimplePerlin();
+            }
+
+            if (GUILayout.Button("Fractal Brownian Motion Perlin"))
+            {
+                terrain.FractaBrownianMotionPerlin();
             }
         }
 

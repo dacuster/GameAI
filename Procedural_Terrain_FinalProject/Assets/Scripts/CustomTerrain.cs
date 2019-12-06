@@ -25,6 +25,9 @@ public class CustomTerrain : MonoBehaviour
     public float perlinYScale = 0.01f;
     public int perlinOffsetX = 0;
     public int perlinOffsetY = 0;
+    public int perlinOctaves = 3;
+    public float perlinPersistance = 8.0f;
+    public float perlinHeightScale = 0.09f;
 
     // The terrain object.
     public Terrain terrain;
@@ -32,7 +35,8 @@ public class CustomTerrain : MonoBehaviour
     // The terrain data object.
     public TerrainData terrainData;
 
-    public void Perlin()
+    // Simple Perlin Noise Terrain Generation.
+    public void SimplePerlin()
     {
         float[,] heightMap = terrainData.GetHeights(0, 0, terrainData.heightmapWidth, terrainData.heightmapHeight);
 
@@ -40,7 +44,25 @@ public class CustomTerrain : MonoBehaviour
         {
             for (int x = 0; x < terrainData.heightmapWidth; x++)
             {
-                heightMap[x, y] = Mathf.PerlinNoise((x + perlinOffsetX)* perlinXScale, (y + perlinOffsetY) * perlinYScale);
+                heightMap[x, y] = Mathf.PerlinNoise((x + perlinOffsetX) * perlinXScale, (y + perlinOffsetY) * perlinYScale);
+            }
+        }
+
+        terrainData.SetHeights(0, 0, heightMap);
+
+        return;
+    }
+
+    // Fractal Brownian Motion Perlin Noise Terrain Generation.
+    public void FractaBrownianMotionPerlin()
+    {
+        float[,] heightMap = terrainData.GetHeights(0, 0, terrainData.heightmapWidth, terrainData.heightmapHeight);
+
+        for (int y = 0; y < terrainData.heightmapHeight; y++)
+        {
+            for (int x = 0; x < terrainData.heightmapWidth; x++)
+            {
+                heightMap[x, y] = Utils.fBM((x + perlinOffsetX) * perlinXScale, (y + perlinOffsetY) * perlinYScale, perlinOctaves, perlinPersistance) * perlinHeightScale;
             }
         }
 
