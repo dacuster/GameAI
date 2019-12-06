@@ -165,7 +165,8 @@ public class CustomTerrain : MonoBehaviour
     {
         float[,] heightMap = GetHeightMap();
 
-        float fallOff = 0.5f;
+        float fallOff = 0.2f;
+        float dropOff = 0.6f;
 
         Vector3 peak = new Vector3(256.0f, 0.2f, 256.0f);
             //new Vector3(UnityEngine.Random.Range(0, terrainData.heightmapWidth),
@@ -185,8 +186,10 @@ public class CustomTerrain : MonoBehaviour
             {
                 if (!(x == peak.x && y == peak.z))
                 {
-                    float distanceToPeak = Vector2.Distance(peakLocation, new Vector2(x, y)) * fallOff;
-                    heightMap[x, y] = peak.y - distanceToPeak / maxDistance;
+                    float distanceToPeak = Vector2.Distance(peakLocation, new Vector2(x, y)) / maxDistance;
+                    //float height = peak.y - distanceToPeak * fallOff - Mathf.Pow(distanceToPeak, dropOff);
+                    float height = peak.y - Mathf.Sin(distanceToPeak * 100.0f) * 0.001f;
+                    heightMap[x, y] = height;
                 }
             }
         }
