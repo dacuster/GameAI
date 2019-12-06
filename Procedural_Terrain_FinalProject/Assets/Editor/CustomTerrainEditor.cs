@@ -47,6 +47,7 @@ public class CustomTerrainEditor : Editor
     private bool showPerlinNoise = false;
     private bool showMultiplePerlinNoise = false;
     private bool showVoronoi = false;
+    private bool showMidpointDisplacement = false;
 
     /**********************
     **  FOLD OUTS (END)  **
@@ -202,6 +203,18 @@ public class CustomTerrainEditor : Editor
             {
                 // Create a random terrain.
                 terrain.Voronoi();
+            }
+        }
+
+        showMidpointDisplacement = EditorGUILayout.Foldout(showMidpointDisplacement, "Midpoint Displacement");
+
+        if (showMidpointDisplacement)
+        {
+            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+
+            if (GUILayout.Button("Midpoint Displacement"))
+            {
+                terrain.MidpointDisplacement();
             }
         }
 

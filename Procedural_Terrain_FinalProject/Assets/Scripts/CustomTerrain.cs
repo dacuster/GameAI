@@ -176,8 +176,7 @@ public class CustomTerrain : MonoBehaviour
     {
         float[,] heightMap = GetHeightMap();
 
-        // Init random seed.
-        UnityEngine.Random.InitState((int)System.DateTime.Now.Ticks);
+        RandomSeed();
 
         for (int currentPeak = 0; currentPeak < voronoiPeaks; currentPeak++)
         {
@@ -249,6 +248,61 @@ public class CustomTerrain : MonoBehaviour
         return;
     }
 
+    public void MidpointDisplacement()
+    {
+        float[,] heightMap = GetHeightMap();
+
+        RandomSeed();
+
+        int width = terrainData.heightmapWidth - 1;
+        int squareSize = width;
+
+        float heightAdjustment = (float)squareSize * 0.005f;//0.5f * 0.01f;
+        float roughness = 2.0f;
+        float heightDampener = Mathf.Pow(2.0f, -1.0f * roughness);
+
+        int cornerX;
+        int cornerY;
+        int midpointX;
+        int midpointY;
+        int pointMiddleLeftX = 0;
+        int pointMiddleRightX = 0;
+        int pointMiddleUpY = 0;
+        int pointMiddleDownY = 0;
+
+        int squareWidth = terrainData.heightmapWidth - 2;
+        int squareHeight = terrainData.heightmapHeight - 2;
+
+        heightMap[0, 0] = UnityEngine.Random.Range(0.0f, 0.2f);
+        heightMap[0, squareHeight] = UnityEngine.Random.Range(0.0f, 0.2f);
+        heightMap[squareWidth, 0] = UnityEngine.Random.Range(0.0f, 0.2f);
+        heightMap[squareWidth, squareHeight] = UnityEngine.Random.Range(0.0f, 0.2f);
+
+        while (squareSize > 0)
+        {
+            for (int x = 0; x < width; x += squareSize)
+            {
+                for (int y = 0; y < width; y += squareSize)
+                {
+                    cornerX = x + squareSize;
+                    cornerY = y + squareSize;
+
+                    midpointX = (int)(x + squareSize * 0.5f);
+                    midpointY = (int)(y + squareSize * 0.5f);
+
+                    heightMap[midpointX, midpointY] = (heightMap[x, y] + heightMap[cornerX, y] + heightMap[x, cornerY] + heightMap[cornerX, cornerY]) * 0.25f + UnityEngine.Random.Range(-heightAdjustment, heightAdjustment);
+                }
+            }
+
+            squareSize = (int)(squareSize * 0.5f);
+            heightAdjustment *= heightDampener;
+        }
+
+        terrainData.SetHeights(0, 0, heightMap);
+
+        return;
+    }
+
     // Generate a random terrain height map.
     public void RandomTerrain()
     {
@@ -307,6 +361,14 @@ public class CustomTerrain : MonoBehaviour
 
         // Set all the height values added to the height map.
         terrainData.SetHeights(0, 0, heightMap);
+
+        return;
+    }
+
+    private void RandomSeed()
+    {
+        // Init random seed.
+        UnityEngine.Random.InitState((int)System.DateTime.Now.Ticks);
 
         return;
     }
