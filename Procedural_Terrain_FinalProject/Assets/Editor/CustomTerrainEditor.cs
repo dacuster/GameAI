@@ -22,6 +22,10 @@ public class CustomTerrainEditor : Editor
     SerializedProperty perlinOctaves;
     SerializedProperty perlinPersistance;
     SerializedProperty perlinHeightScale;
+    SerializedProperty resetTerrain;
+
+    GUITableState perlinParameterTable;
+    SerializedProperty perlinParameters;
 
     /***********************
     **  PROPERTIES (END)  **
@@ -35,6 +39,7 @@ public class CustomTerrainEditor : Editor
     private bool showRandom = false;
     private bool showLoadHeights = false;
     private bool showPerlinNoise = false;
+    private bool showMultiplePerlinNoise = false;
 
     /**********************
     **  FOLD OUTS (END)  **
@@ -53,6 +58,9 @@ public class CustomTerrainEditor : Editor
         perlinOctaves = serializedObject.FindProperty("perlinOctaves");
         perlinPersistance = serializedObject.FindProperty("perlinPersistance");
         perlinHeightScale = serializedObject.FindProperty("perlinHeightScale");
+        resetTerrain = serializedObject.FindProperty("resetTerrain");
+        perlinParameterTable = new GUITableState("perlinParameterTable");
+        perlinParameters = serializedObject.FindProperty("perlinParameters");
 
         return;
     }
@@ -64,6 +72,9 @@ public class CustomTerrainEditor : Editor
 
         // Get the CustomTerrain script.
         CustomTerrain terrain = (CustomTerrain)target;
+
+        // Reset the terrain or not before generating a new terrain.
+        EditorGUILayout.PropertyField(resetTerrain);
 
         // Create a foldout option in the inspector.
         showRandom = EditorGUILayout.Foldout(showRandom, "Random");
@@ -125,6 +136,37 @@ public class CustomTerrainEditor : Editor
             if (GUILayout.Button("Fractal Brownian Motion Perlin"))
             {
                 terrain.FractaBrownianMotionPerlin();
+            }
+        }
+
+        showMultiplePerlinNoise = EditorGUILayout.Foldout(showMultiplePerlinNoise, "Multiple Perlin Noise");
+
+        if (showMultiplePerlinNoise)
+        {
+            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+            GUILayout.Label("Multiple Perlin Noise", EditorStyles.boldLabel);
+
+            perlinParameterTable = GUITableLayout.DrawTable(perlinParameterTable, serializedObject.FindProperty("perlinParameters"));
+
+            GUILayout.Space(20);
+
+            EditorGUILayout.BeginHorizontal();
+
+            if (GUILayout.Button("+"))
+            {
+                terrain.AddNewPerlin();
+            }
+
+            if (GUILayout.Button("-"))
+            {
+                terrain.RemovePerlin();
+            }
+
+            EditorGUILayout.EndHorizontal();
+
+            if (GUILayout.Button("Apply Multiple Perlin"))
+            {
+                terrain.MultiplePerlin();
             }
         }
 
