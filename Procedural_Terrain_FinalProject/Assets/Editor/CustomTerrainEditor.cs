@@ -107,6 +107,9 @@ public class CustomTerrainEditor : Editor
         // Reset the terrain or not before generating a new terrain.
         EditorGUILayout.PropertyField(resetTerrain);
 
+        // Create horizontal divider (slider) bar.
+        EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+
         // Create a foldout option in the inspector.
         showRandom = EditorGUILayout.Foldout(showRandom, "Random");
 
@@ -115,7 +118,7 @@ public class CustomTerrainEditor : Editor
         {
             // Create horizontal divider (slider) bar.
             EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-            
+
             // Create a label in the inspector.
             GUILayout.Label("Set Heights Between Random Values", EditorStyles.boldLabel);
             
@@ -128,35 +131,52 @@ public class CustomTerrainEditor : Editor
                 // Create a random terrain.
                 terrain.RandomTerrain();
             }
+
+            // Create horizontal divider (slider) bar.
+            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
         }
 
         showLoadHeights = EditorGUILayout.Foldout(showLoadHeights, "Load Heights");
 
         if (showLoadHeights)
         {
+            // Create horizontal divider (slider) bar.
             EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+
             GUILayout.Label("Load Heights From Texture", EditorStyles.boldLabel);
+
             EditorGUILayout.PropertyField(heightMapImage);
+
             EditorGUILayout.PropertyField(heightMapScale);
 
             if (GUILayout.Button("Load Texture"))
             {
                 terrain.LoadTexture();
             }
+
+            // Create horizontal divider (slider) bar.
+            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
         }
 
         showPerlinNoise = EditorGUILayout.Foldout(showPerlinNoise, "Single Perlin Noise");
 
         if (showPerlinNoise)
         {
+            // Create horizontal divider (slider) bar.
             EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+
             GUILayout.Label("Perlin Noise", EditorStyles.boldLabel);
+
             EditorGUILayout.Slider(perlinXScale, 0, 1, new GUIContent("X Scale"));
             EditorGUILayout.Slider(perlinYScale, 0, 1, new GUIContent("Y Scale"));
+
             EditorGUILayout.IntSlider(perlinOffsetX, 0, 10000, new GUIContent("Offset X"));
             EditorGUILayout.IntSlider(perlinOffsetY, 0, 10000, new GUIContent("Offset Y"));
+
             EditorGUILayout.IntSlider(perlinOctaves, 0, 10, new GUIContent("Octaves"));
+
             EditorGUILayout.Slider(perlinPersistance, 0, 10, new GUIContent("Persistance"));
+
             EditorGUILayout.Slider(perlinHeightScale, 0, 1, new GUIContent("Height Scale"));
 
             if (GUILayout.Button("Simple Perlin"))
@@ -168,13 +188,18 @@ public class CustomTerrainEditor : Editor
             {
                 terrain.FractaBrownianMotionPerlin();
             }
+
+            // Create horizontal divider (slider) bar.
+            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
         }
 
         showMultiplePerlinNoise = EditorGUILayout.Foldout(showMultiplePerlinNoise, "Multiple Perlin Noise");
 
         if (showMultiplePerlinNoise)
         {
+            // Create horizontal divider (slider) bar.
             EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+
             GUILayout.Label("Multiple Perlin Noise", EditorStyles.boldLabel);
 
             perlinParameterTable = GUITableLayout.DrawTable(perlinParameterTable, serializedObject.FindProperty("perlinParameters"));
@@ -199,6 +224,9 @@ public class CustomTerrainEditor : Editor
             {
                 terrain.MultiplePerlin();
             }
+
+            // Create horizontal divider (slider) bar.
+            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
         }
 
         // Create a foldout option in the inspector.
@@ -207,11 +235,17 @@ public class CustomTerrainEditor : Editor
         // Foldout is open.
         if (showVoronoi)
         {
+            // Create horizontal divider (slider) bar.
+            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+
             EditorGUILayout.IntSlider(voronoiPeaks, 1, 10, new GUIContent("Peak Count"));
+
             EditorGUILayout.Slider(voronoiFallOff, 0.0f, 10.0f, new GUIContent("Fall Off"));
             EditorGUILayout.Slider(voronoiDropOff, 0.0f, 10.0f, new GUIContent("Drop Off"));
+
             EditorGUILayout.Slider(voronoiMinimumHeight, 0.0f, 1.0f, new GUIContent("Minimum Height"));
             EditorGUILayout.Slider(voronoiMaximumHeight, 0.0f, 1.0f, new GUIContent("Maximum Height"));
+
             EditorGUILayout.PropertyField(voronoiType);
 
             // Generate random terrain height map.
@@ -220,12 +254,18 @@ public class CustomTerrainEditor : Editor
                 // Create a random terrain.
                 terrain.Voronoi();
             }
+
+            // Create horizontal divider (slider) bar.
+            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
         }
 
         showMidpointDisplacement = EditorGUILayout.Foldout(showMidpointDisplacement, "Midpoint Displacement");
 
         if (showMidpointDisplacement)
         {
+            // Create horizontal divider (slider) bar.
+            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+
             EditorGUILayout.PropertyField(midpointHeightMinimum);
             EditorGUILayout.PropertyField(midpointHeightMaximum);
             EditorGUILayout.PropertyField(midpointHeightDampenerPower);
@@ -235,10 +275,10 @@ public class CustomTerrainEditor : Editor
             {
                 terrain.MidpointDisplacement();
             }
-        }
 
-        // Create horizontal divider (slider) bar.
-        EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+            // Create horizontal divider (slider) bar.
+            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+        }
 
         // Reset terrain height map to zero.
         if (GUILayout.Button("Reset Heights"))
@@ -252,7 +292,6 @@ public class CustomTerrainEditor : Editor
 
         return;
     }
-
 
     // Start is called before the first frame update
     void Start()
