@@ -40,6 +40,7 @@ public class CustomTerrainEditor : Editor
     private bool showLoadHeights = false;
     private bool showPerlinNoise = false;
     private bool showMultiplePerlinNoise = false;
+    private bool showVoronoi = false;
 
     /**********************
     **  FOLD OUTS (END)  **
@@ -167,6 +168,20 @@ public class CustomTerrainEditor : Editor
             if (GUILayout.Button("Apply Multiple Perlin"))
             {
                 terrain.MultiplePerlin();
+            }
+        }
+
+        // Create a foldout option in the inspector.
+        showVoronoi = EditorGUILayout.Foldout(showVoronoi, "Voronoi");
+
+        // Foldout is open.
+        if (showVoronoi)
+        {
+            // Generate random terrain height map.
+            if (GUILayout.Button("Voronoi"))
+            {
+                // Create a random terrain.
+                terrain.Voronoi();
             }
         }
 
