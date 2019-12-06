@@ -23,6 +23,12 @@ public class CustomTerrainEditor : Editor
     SerializedProperty perlinPersistance;
     SerializedProperty perlinHeightScale;
     SerializedProperty resetTerrain;
+    SerializedProperty voronoiFallOff;
+    SerializedProperty voronoiDropOff;
+    SerializedProperty voronoiMinimumHeight;
+    SerializedProperty voronoiMaximumHeight;
+    SerializedProperty voronoiPeaks;
+
 
     GUITableState perlinParameterTable;
     SerializedProperty perlinParameters;
@@ -62,6 +68,12 @@ public class CustomTerrainEditor : Editor
         resetTerrain = serializedObject.FindProperty("resetTerrain");
         perlinParameterTable = new GUITableState("perlinParameterTable");
         perlinParameters = serializedObject.FindProperty("perlinParameters");
+        voronoiFallOff = serializedObject.FindProperty("voronoiFallOff");
+        voronoiDropOff = serializedObject.FindProperty("voronoiDropOff");
+        voronoiMinimumHeight = serializedObject.FindProperty("voronoiMinimumHeight");
+        voronoiMaximumHeight = serializedObject.FindProperty("voronoiMaximumHeight");
+        voronoiPeaks = serializedObject.FindProperty("voronoiPeaks");
+        
 
         return;
     }
@@ -177,6 +189,12 @@ public class CustomTerrainEditor : Editor
         // Foldout is open.
         if (showVoronoi)
         {
+            EditorGUILayout.IntSlider(voronoiPeaks, 1, 10, new GUIContent("Peak Count"));
+            EditorGUILayout.Slider(voronoiFallOff, 0.0f, 10.0f, new GUIContent("Fall Off"));
+            EditorGUILayout.Slider(voronoiDropOff, 0.0f, 10.0f, new GUIContent("Drop Off"));
+            EditorGUILayout.Slider(voronoiMinimumHeight, 0.0f, 1.0f, new GUIContent("Minimum Height"));
+            EditorGUILayout.Slider(voronoiMaximumHeight, 0.0f, 1.0f, new GUIContent("Maximum Height"));
+
             // Generate random terrain height map.
             if (GUILayout.Button("Voronoi"))
             {
