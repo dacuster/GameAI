@@ -15,6 +15,7 @@ public class CustomTerrainEditor : Editor
     SerializedProperty randomHeightRange;
     SerializedProperty heightMapScale;
     SerializedProperty heightMapImage;
+
     SerializedProperty perlinXScale;
     SerializedProperty perlinYScale;
     SerializedProperty perlinOffsetX;
@@ -22,13 +23,20 @@ public class CustomTerrainEditor : Editor
     SerializedProperty perlinOctaves;
     SerializedProperty perlinPersistance;
     SerializedProperty perlinHeightScale;
+
     SerializedProperty resetTerrain;
+
     SerializedProperty voronoiFallOff;
     SerializedProperty voronoiDropOff;
     SerializedProperty voronoiMinimumHeight;
     SerializedProperty voronoiMaximumHeight;
     SerializedProperty voronoiPeaks;
     SerializedProperty voronoiType;
+
+    SerializedProperty midpointHeightMinimum;
+    SerializedProperty midpointHeightMaximum;
+    SerializedProperty midpointHeightDampenerPower;
+    SerializedProperty midpointRoughness;
 
     GUITableState perlinParameterTable;
     SerializedProperty perlinParameters;
@@ -59,6 +67,7 @@ public class CustomTerrainEditor : Editor
         randomHeightRange = serializedObject.FindProperty("randomHeightRange");
         heightMapScale = serializedObject.FindProperty("heightMapScale");
         heightMapImage = serializedObject.FindProperty("heightMapImage");
+
         perlinXScale = serializedObject.FindProperty("perlinXScale");
         perlinYScale = serializedObject.FindProperty("perlinYScale");
         perlinOffsetX = serializedObject.FindProperty("perlinOffsetX");
@@ -66,9 +75,12 @@ public class CustomTerrainEditor : Editor
         perlinOctaves = serializedObject.FindProperty("perlinOctaves");
         perlinPersistance = serializedObject.FindProperty("perlinPersistance");
         perlinHeightScale = serializedObject.FindProperty("perlinHeightScale");
-        resetTerrain = serializedObject.FindProperty("resetTerrain");
+
         perlinParameterTable = new GUITableState("perlinParameterTable");
         perlinParameters = serializedObject.FindProperty("perlinParameters");
+
+        resetTerrain = serializedObject.FindProperty("resetTerrain");
+
         voronoiFallOff = serializedObject.FindProperty("voronoiFallOff");
         voronoiDropOff = serializedObject.FindProperty("voronoiDropOff");
         voronoiMinimumHeight = serializedObject.FindProperty("voronoiMinimumHeight");
@@ -76,6 +88,10 @@ public class CustomTerrainEditor : Editor
         voronoiPeaks = serializedObject.FindProperty("voronoiPeaks");
         voronoiType = serializedObject.FindProperty("voronoiType");
 
+        midpointHeightMinimum = serializedObject.FindProperty("midpointHeightMinimum");
+        midpointHeightMaximum = serializedObject.FindProperty("midpointHeightMaximum");
+        midpointHeightDampenerPower = serializedObject.FindProperty("midpointHeightDampenerPower");
+        midpointRoughness = serializedObject.FindProperty("midpointRoughness");
 
         return;
     }
@@ -210,7 +226,10 @@ public class CustomTerrainEditor : Editor
 
         if (showMidpointDisplacement)
         {
-            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+            EditorGUILayout.PropertyField(midpointHeightMinimum);
+            EditorGUILayout.PropertyField(midpointHeightMaximum);
+            EditorGUILayout.PropertyField(midpointHeightDampenerPower);
+            EditorGUILayout.PropertyField(midpointRoughness);
 
             if (GUILayout.Button("Midpoint Displacement"))
             {

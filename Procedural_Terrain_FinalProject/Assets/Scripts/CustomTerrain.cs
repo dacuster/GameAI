@@ -59,6 +59,14 @@ public class CustomTerrain : MonoBehaviour
     public enum VoronoiType { Linear, Power, Combined, SinPow }
     public VoronoiType voronoiType = VoronoiType.Linear;
 
+    /****************************
+    **  MIDPOINT DISPLACEMENT  **
+    ****************************/
+    public float midpointHeightMinimum = -2.0f;
+    public float midpointHeightMaximum = 2.0f;
+    public float midpointHeightDampenerPower = 2.0f;
+    public float midpointRoughness = 2.0f;
+
     public List<PerlinParameters> perlinParameters = new List<PerlinParameters>()
     {
         new PerlinParameters()
@@ -257,26 +265,27 @@ public class CustomTerrain : MonoBehaviour
         int width = terrainData.heightmapWidth - 1;
         int squareSize = width;
 
-        float heightAdjustment = (float)squareSize * 0.005f;//0.5f * 0.01f;
-        float roughness = 2.0f;
-        float heightDampener = Mathf.Pow(2.0f, -1.0f * roughness);
+        float heightMinimum = midpointHeightMinimum;
+        float heightMaximum = midpointHeightMaximum;
+
+        float heightDampener = Mathf.Pow(midpointHeightDampenerPower, -1.0f * midpointRoughness);
 
         int cornerX;
         int cornerY;
         int midpointX;
         int midpointY;
-        int pointMiddleLeftX = 0;
-        int pointMiddleRightX = 0;
-        int pointMiddleUpY = 0;
-        int pointMiddleDownY = 0;
+        int midpointLeftX;
+        int midpointRightX;
+        int midpointUpY;
+        int midpointDownY;
 
         int squareWidth = terrainData.heightmapWidth - 2;
         int squareHeight = terrainData.heightmapHeight - 2;
 
-        heightMap[0, 0] = UnityEngine.Random.Range(0.0f, 0.2f);
+        /*heightMap[0, 0] = UnityEngine.Random.Range(0.0f, 0.2f);
         heightMap[0, squareHeight] = UnityEngine.Random.Range(0.0f, 0.2f);
         heightMap[squareWidth, 0] = UnityEngine.Random.Range(0.0f, 0.2f);
-        heightMap[squareWidth, squareHeight] = UnityEngine.Random.Range(0.0f, 0.2f);
+        heightMap[squareWidth, squareHeight] = UnityEngine.Random.Range(0.0f, 0.2f);*/
 
         while (squareSize > 0)
         {
@@ -290,12 +299,69 @@ public class CustomTerrain : MonoBehaviour
                     midpointX = (int)(x + squareSize * 0.5f);
                     midpointY = (int)(y + squareSize * 0.5f);
 
-                    heightMap[midpointX, midpointY] = (heightMap[x, y] + heightMap[cornerX, y] + heightMap[x, cornerY] + heightMap[cornerX, cornerY]) * 0.25f + UnityEngine.Random.Range(-heightAdjustment, heightAdjustment);
+                    heightMap[midpointX, midpointY] = ( heightMap[x, y]
+                                                      + heightMap[cornerX, y]
+                                                      + heightMap[x, cornerY]
+                                                      + heightMap[cornerX, cornerY])
+                                                      * 0.25f
+                                                      + UnityEngine.Random.Range(heightMinimum, heightMaximum);
+                }
+            }
+
+            for (int x = 0; x < width; x += squareSize)
+            {
+                for (int y = 0; y < width; y += squareSize)
+                {
+                    cornerX = x + squareSize;
+                    cornerY = y + squareSize;
+
+                    midpointX = (int)(x + squareSize * 0.5f);
+                    midpointY = (int)(y + squareSize * 0.5f);
+
+                    midpointRightX = midpointX + squareSize;
+                    midpointUpY    = midpointY + squareSize;
+                    midpointLeftX  = midpointX - squareSize;
+                    midpointDownY  = midpointY - squareSize;
+
+                    // Out of bounds check.
+                    if (midpointRightX >= width - 1 || midpointUpY >= width - 1 || midpointLeftX  <= 0 || midpointDownY <= 0)
+                    {
+                        continue;
+                    }
+
+                    heightMap[midpointX, y] = ( heightMap[midpointX, midpointY]
+                                              + heightMap[x, y]
+                                              + heightMap[midpointX, midpointDownY]
+                                              + heightMap[cornerX, y])
+                                              * 0.25f
+                                              + UnityEngine.Random.Range(heightMinimum, heightMaximum);
+
+                    heightMap[midpointX, cornerY] = (heightMap[midpointX, midpointUpY]
+                                              + heightMap[x, cornerY]
+                                              + heightMap[midpointX, midpointY]
+                                              + heightMap[cornerX, cornerY])
+                                              * 0.25f
+                                              + UnityEngine.Random.Range(heightMinimum, heightMaximum);
+
+                    heightMap[x, midpointY] = (heightMap[x, y]
+                                              + heightMap[midpointLeftX, midpointY]
+                                              + heightMap[x, cornerY]
+                                              + heightMap[midpointX, midpointY])
+                                              * 0.25f
+                                              + UnityEngine.Random.Range(heightMinimum, heightMaximum);
+
+                    heightMap[cornerX, midpointY] = (heightMap[cornerX, y]
+                                              + heightMap[midpointX, midpointY]
+                                              + heightMap[cornerX, cornerY]
+                                              + heightMap[midpointRightX, midpointY])
+                                              * 0.25f
+                                              + UnityEngine.Random.Range(heightMinimum, heightMaximum);
                 }
             }
 
             squareSize = (int)(squareSize * 0.5f);
-            heightAdjustment *= heightDampener;
+            heightMinimum *= heightDampener;
+            heightMaximum *= heightDampener;
         }
 
         terrainData.SetHeights(0, 0, heightMap);
