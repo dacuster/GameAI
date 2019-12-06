@@ -369,6 +369,57 @@ public class CustomTerrain : MonoBehaviour
         return;
     }
 
+    private List<Vector2> GenerateNeightbors(Vector2 position, int width, int height)
+    {
+        List<Vector2> neighbors = new List<Vector2>();
+
+        for (int y = -1; y < 2; y++)
+        {
+            for (int x = -1; x < 2; x++)
+            {
+                if (!(x == 0 && y == 0))
+                {
+                    Vector2 nPos = new Vector2(Mathf.Clamp(position.x + x, 0, width - 1),
+                                               Mathf.Clamp(position.y + y, 0, height - 1));
+
+                    if (!neighbors.Contains(nPos))
+                    {
+                        neighbors.Add(nPos);
+                    }
+                }
+
+            }
+        }
+
+        return neighbors;
+    }
+
+    public void Smooth()
+    {
+        float[,] heightMap = GetHeightMap();
+
+        int width = terrainData.heightmapWidth - 1;
+
+        for (int y = 0; y < terrainData.heightmapHeight; y++)
+        {
+            for (int x = 0; x < terrainData.heightmapWidth; x++)
+            {
+                float averageHeight = heightMap[x, y];
+
+                List<Vector2> neighbors = GenerateNeightbors(new Vector2(x, y), terrainData.heightmapWidth, terrainData.heightmapHeight);
+
+                foreach (Vector2 neighbor in neighbors)
+                {
+                    averageHeight += heightMap[(int)neighbor.x, (int)neighbor.y];
+                }
+
+                heightMap[x, y] = averageHeight / ((float)neighbors.Count + 1.0f);
+            }
+        }
+
+        terrainData.SetHeights(0, 0, heightMap);
+    }
+
     // Generate a random terrain height map.
     public void RandomTerrain()
     {

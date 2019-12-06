@@ -56,6 +56,7 @@ public class CustomTerrainEditor : Editor
     private bool showMultiplePerlinNoise = false;
     private bool showVoronoi = false;
     private bool showMidpointDisplacement = false;
+    private bool showSmooth = false;
 
     /**********************
     **  FOLD OUTS (END)  **
@@ -274,6 +275,22 @@ public class CustomTerrainEditor : Editor
             if (GUILayout.Button("Midpoint Displacement"))
             {
                 terrain.MidpointDisplacement();
+            }
+
+            // Create horizontal divider (slider) bar.
+            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+        }
+
+        showSmooth = EditorGUILayout.Foldout(showSmooth, "Smooth");
+
+        if (showSmooth)
+        {
+            // Create horizontal divider (slider) bar.
+            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+
+            if (GUILayout.Button("Smooth"))
+            {
+                terrain.Smooth();
             }
 
             // Create horizontal divider (slider) bar.
