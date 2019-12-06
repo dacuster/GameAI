@@ -478,18 +478,19 @@ MonoBehaviour:
   heightMapImage: {fileID: 2800000, guid: 86fc15754f8d14c4a880f206adde13f5, type: 3}
   heightMapScale: {x: 2, y: 1, z: 2}
   resetTerrain: 0
-  perlinXScale: 0.0001
-  perlinYScale: 0.0001
-  perlinOffsetX: 4513
-  perlinOffsetY: 4159
-  perlinOctaves: 7
+  perlinXScale: 0.018
+  perlinYScale: 0.018
+  perlinOffsetX: 6637
+  perlinOffsetY: 4956
+  perlinOctaves: 1
   perlinPersistance: 2.64
-  perlinHeightScale: 0.602
-  voronoiFallOff: 0.2
-  voronoiDropOff: 0.75
-  voronoiMinimumHeight: 0.25
-  voronoiMaximumHeight: 0.495
+  perlinHeightScale: 0.151
+  voronoiFallOff: 10
+  voronoiDropOff: 10
+  voronoiMinimumHeight: 0.07
+  voronoiMaximumHeight: 0.23
   voronoiPeaks: 10
+  voronoiType: 3
   perlinParameters:
   - mPerlinXScale: 0.01
     mPerlinYScale: 0.01

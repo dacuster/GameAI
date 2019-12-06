@@ -28,7 +28,7 @@ public class CustomTerrainEditor : Editor
     SerializedProperty voronoiMinimumHeight;
     SerializedProperty voronoiMaximumHeight;
     SerializedProperty voronoiPeaks;
-
+    SerializedProperty voronoiType;
 
     GUITableState perlinParameterTable;
     SerializedProperty perlinParameters;
@@ -73,7 +73,8 @@ public class CustomTerrainEditor : Editor
         voronoiMinimumHeight = serializedObject.FindProperty("voronoiMinimumHeight");
         voronoiMaximumHeight = serializedObject.FindProperty("voronoiMaximumHeight");
         voronoiPeaks = serializedObject.FindProperty("voronoiPeaks");
-        
+        voronoiType = serializedObject.FindProperty("voronoiType");
+
 
         return;
     }
@@ -194,6 +195,7 @@ public class CustomTerrainEditor : Editor
             EditorGUILayout.Slider(voronoiDropOff, 0.0f, 10.0f, new GUIContent("Drop Off"));
             EditorGUILayout.Slider(voronoiMinimumHeight, 0.0f, 1.0f, new GUIContent("Minimum Height"));
             EditorGUILayout.Slider(voronoiMaximumHeight, 0.0f, 1.0f, new GUIContent("Maximum Height"));
+            EditorGUILayout.PropertyField(voronoiType);
 
             // Generate random terrain height map.
             if (GUILayout.Button("Voronoi"))

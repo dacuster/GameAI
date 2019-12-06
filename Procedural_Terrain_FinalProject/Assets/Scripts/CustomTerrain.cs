@@ -56,6 +56,8 @@ public class CustomTerrain : MonoBehaviour
     public float voronoiMinimumHeight = 0.1f;
     public float voronoiMaximumHeight = 0.5f;
     public int voronoiPeaks = 5;
+    public enum VoronoiType { Linear, Power, Combined, SinPow }
+    public VoronoiType voronoiType = VoronoiType.Linear;
 
     public List<PerlinParameters> perlinParameters = new List<PerlinParameters>()
     {
@@ -205,7 +207,33 @@ public class CustomTerrain : MonoBehaviour
                     {
                         float distanceToPeak = Vector2.Distance(peakLocation, new Vector2(x, y)) / maxDistance;
 
-                        float height = peak.y - distanceToPeak * voronoiFallOff - Mathf.Pow(distanceToPeak, voronoiDropOff);
+                        float height = 0.0f;
+
+                        switch (voronoiType)
+                        {
+                            case VoronoiType.Combined:
+                                // Combined
+                                height = peak.y - distanceToPeak * voronoiFallOff - Mathf.Pow(distanceToPeak, voronoiDropOff);
+                                break;
+
+                            case VoronoiType.Linear:
+                                // Linear
+                                height = peak.y - distanceToPeak * voronoiFallOff;
+                                break;
+
+                            case VoronoiType.Power:
+                                // Power
+                                height = peak.y - Mathf.Pow(distanceToPeak, voronoiDropOff) * voronoiFallOff;
+                                break;
+
+                            case VoronoiType.SinPow:
+                                // Power
+                                height = peak.y - Mathf.Pow(distanceToPeak * 3.0f, voronoiFallOff) - Mathf.Sin(distanceToPeak * 2.0f * Mathf.PI) / voronoiDropOff;
+                                break;
+
+                            default:
+                                break;
+                        }
 
                         if (heightMap[x, y] < height)
                         {
